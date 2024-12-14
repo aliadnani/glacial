@@ -55,7 +55,7 @@ function ArchiveForm() {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      bytesPerQrCode: "32",
+      bytesPerQrCode: "628",
       maxQrCodesPerPage: 6,
       pageSize: "A4",
     },
@@ -111,16 +111,16 @@ function ArchiveForm() {
                 defaultValue={field.value.toLocaleString()}
               >
                 <FormControl>
-                  <SelectTrigger className="w-32">
-                    <SelectValue placeholder="Select" defaultValue={"128"} />
+                  <SelectTrigger className="w-32" disabled>
+                    <SelectValue placeholder="Select" defaultValue={"628"}/>
                   </SelectTrigger>
                   {/* <Input type="number" {...field} /> */}
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value={"32"}>32 Bytes</SelectItem>
-                  <SelectItem value={"128"}>128 Bytes</SelectItem>
-                  <SelectItem value={"512"}>512 Bytes</SelectItem>
-                  <SelectItem value={"2048"}>2048 Bytes</SelectItem>
+                  {/* <SelectItem value={"32"}>32 Bytes</SelectItem>
+                  <SelectItem value={"128"}>128 Bytes</SelectItem> */}
+                  <SelectItem value={"628"}>628 Bytes</SelectItem>
+                  {/* <SelectItem value={"2048"}>2048 Bytes</SelectItem> */}
                 </SelectContent>
               </Select>
 
@@ -185,14 +185,15 @@ function ArchiveForm() {
         <Button
           className="my-4"
           type="submit"
+          onClick={reactToPrintFn}
           disabled={!form.formState.isValid}
         >
           Generate QR Codes
         </Button>
       </form>
-      <div  ref={contentRef}>
+      <div  ref={contentRef}  className="hide-for-print">
         <QrCodeHiddenPage file={file as File} bytesPerQrCode={256} />
-        <Button onClick={reactToPrintFn}>Print</Button>
+        {/* <Button onClick={reactToPrintFn}>Print</Button> */}
       </div>
     </Form>
   );
@@ -260,12 +261,12 @@ function App() {
   );
 }
 
-interface QrCodeHiddenPage {
+interface QrCodeHiddenPageProps {
   file: File;
   bytesPerQrCode: number;
 }
 
-function QrCodeHiddenPage(props: QrCodeHiddenPage) {
+function QrCodeHiddenPage(props: QrCodeHiddenPageProps) {
   const { file } = props;
   const [z85Strings, setZ85Strings] = useState<string[]>();
 
@@ -276,6 +277,7 @@ function QrCodeHiddenPage(props: QrCodeHiddenPage) {
 
       const chunkedInt8Arrays = chunk(int8Array, 628);
       const z85edArrayBuffers = chunkedInt8Arrays.map((buf) => encode(buf));
+      z85edArrayBuffers[z85edArrayBuffers.length - 1] = `${z85edArrayBuffers[z85edArrayBuffers.length - 1]},fileName=${file.name}`
       console.log(z85edArrayBuffers);
       setZ85Strings(z85edArrayBuffers);
     }
@@ -288,9 +290,6 @@ function QrCodeHiddenPage(props: QrCodeHiddenPage) {
     <>
       {
         z85Strings && <StringTables strings={z85Strings} />
-        // z85Strings.map((z) => (
-        //     <QRCodeSVG  value={z} marginSize={4} />
-        // ))}
       }
     </>
   );
@@ -338,10 +337,10 @@ const StringTables: React.FC<Props> = ({ strings }) => {
           <>
             <div className="page-break" />
 
-            <P className="text-sm">
+            <p className="text-sm">
               glacial | scan top to bottom, left to right | page{" "}
               {tableIndex + 1}/{numTables}
-            </P>
+            </p>
             <table key={tableIndex}>
               <tbody>
                 {Array.from({ length: 3 }, (_, rowIndex) => (
