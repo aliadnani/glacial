@@ -171,7 +171,7 @@ function ArchiveForm() {
         <Button
           className="my-4"
           type="submit"
-          onClick={reactToPrintFn}
+          onClick={() => reactToPrintFn()}
           disabled={!form.formState.isValid}
         >
           Print QR Codes
