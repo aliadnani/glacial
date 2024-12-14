@@ -18,7 +18,7 @@ import { ArchiveForm } from "./features/archive/archive-form";
 function App() {
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-      <div className="mx-auto max-w-7xl p-8 space-y-4 flex flex-col justify-center items-center">
+      <div className="mx-auto max-w-2xl p-4 space-y-4 flex flex-col justify-center items-center">
         <div className="flex h-5 items-center space-x-4 text-sm">
           <div>
             <P className="font-bold text-lg">Glacial</P>
@@ -28,7 +28,7 @@ function App() {
             <P>QR-based data archival and retrieval</P>
           </div>
         </div>
-        <Tabs defaultValue="archive" className="w-[520px]">
+        <Tabs defaultValue="archive">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="archive">Archive</TabsTrigger>
             <TabsTrigger value="recover">Recover</TabsTrigger>
