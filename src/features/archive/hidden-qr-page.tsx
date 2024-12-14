@@ -32,14 +32,14 @@ function HiddenQrPage(props: HiddenQrPageProps) {
     }
   }, [file, z85Strings]);
 
-  return <>{z85Strings && <StringTables strings={z85Strings} />}</>;
+  return <>{z85Strings && <QrCodeTables strings={z85Strings} />}</>;
 }
 
 interface Props {
   strings: string[];
 }
 
-const StringTables: React.FC<Props> = ({ strings }) => {
+const QrCodeTables: React.FC<Props> = ({ strings }) => {
   // Number of elements per table (2 columns x 3 rows)
   const elementsPerTable = 6;
 
@@ -96,4 +96,5 @@ const StringTables: React.FC<Props> = ({ strings }) => {
   );
 };
 
-export { HiddenQrPage, HiddenQrPageProps };
+export { HiddenQrPage };
+export type { HiddenQrPageProps };

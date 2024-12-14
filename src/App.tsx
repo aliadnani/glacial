@@ -9,36 +9,10 @@ import {
   CardHeader,
   CardTitle,
 } from "./components/ui/card";
-import { Input } from "./components/ui/input";
-import { Label } from "./components/ui/label";
 import { Separator } from "./components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { P } from "./components/ui/typography";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 
-import { QRCodeSVG } from "qrcode.react";
-
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "./components/ui/select";
-import { useEffect, useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
-import { encode } from "./features/z85";
 import { ArchiveForm } from "./features/archive/archive-form";
 
 function App() {
@@ -57,7 +31,7 @@ function App() {
         <Tabs defaultValue="archive" className="w-[520px]">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="archive">Archive</TabsTrigger>
-            <TabsTrigger value="retrieve">Retrieve</TabsTrigger>
+            <TabsTrigger value="recover">Recover</TabsTrigger>
           </TabsList>
           <TabsContent value="archive">
             <Card>
@@ -71,26 +45,22 @@ function App() {
               <CardContent className="space-y-2">
                 <ArchiveForm />
               </CardContent>
-              <CardFooter>{/* ??? */}</CardFooter>
             </Card>
           </TabsContent>
-          <TabsContent value="retrieve">
+          <TabsContent value="recover">
             <Card>
               <CardHeader>
-                <CardTitle>Password</CardTitle>
+                <CardTitle>Recover</CardTitle>
                 <CardDescription>
-                  Change your password here. After saving, you'll be logged out.
+                  Recover data from printed out glacial QR codes. Do this on a
+                  phone with a decent back camera.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <div className="space-y-1">
-                  <Label htmlFor="current">Current password</Label>
-                  <Input id="current" type="password" />
-                </div>
-                <div className="space-y-1">
-                  <Label htmlFor="new">New password</Label>
-                  <Input id="new" type="password" />
-                </div>
+                <P className="text-sm  text-rose-900">
+                  WIP: UI to scan glacial-generated QR codes. QRs contain
+                  filename and page data too - so validation is possible too. https://scanapp.org/ is a good reference.
+                </P>
               </CardContent>
               <CardFooter>
                 <Button>Save password</Button>
