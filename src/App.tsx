@@ -85,6 +85,7 @@ function ArchiveForm() {
                   {...field}
                   onChange={(e) => {
                     field.onChange(e);
+
                     setFile(e.target.files?.[0] as File);
                   }}
                 />
@@ -112,7 +113,7 @@ function ArchiveForm() {
               >
                 <FormControl>
                   <SelectTrigger className="w-32" disabled>
-                    <SelectValue placeholder="Select" defaultValue={"628"}/>
+                    <SelectValue placeholder="Select" defaultValue={"628"} />
                   </SelectTrigger>
                   {/* <Input type="number" {...field} /> */}
                 </FormControl>
@@ -188,10 +189,10 @@ function ArchiveForm() {
           onClick={reactToPrintFn}
           disabled={!form.formState.isValid}
         >
-          Generate QR Codes
+          Print QR Codes
         </Button>
       </form>
-      <div  ref={contentRef}  className="hide-for-print">
+      <div ref={contentRef} className="hide-for-print">
         <QrCodeHiddenPage file={file as File} bytesPerQrCode={256} />
         {/* <Button onClick={reactToPrintFn}>Print</Button> */}
       </div>
@@ -262,7 +263,7 @@ function App() {
 }
 
 interface QrCodeHiddenPageProps {
-  file: File;
+  file?: File;
   bytesPerQrCode: number;
 }
 
@@ -275,24 +276,22 @@ function QrCodeHiddenPage(props: QrCodeHiddenPageProps) {
       const awaitedArrayBuffer = await file.arrayBuffer();
       const int8Array = new Uint8Array(awaitedArrayBuffer);
 
-      const chunkedInt8Arrays = chunk(int8Array, 628);
-      const z85edArrayBuffers = chunkedInt8Arrays.map((buf) => encode(buf));
-      z85edArrayBuffers[z85edArrayBuffers.length - 1] = `${z85edArrayBuffers[z85edArrayBuffers.length - 1]},fileName=${file.name}`
-      console.log(z85edArrayBuffers);
+      const chunkedInt8Arrays = chunk(int8Array, 612);
+      const z85edArrayBuffers = chunkedInt8Arrays
+
+        .map((buf) => encode(buf))
+        .map(
+          (zStr, idx) =>
+            `${zStr}~fileName=${file.name}~pages=${idx + 1}/${chunkedInt8Arrays.length}`,
+        );
       setZ85Strings(z85edArrayBuffers);
     }
-    if (!z85Strings) {
+    if (file) {
       awaitArrayBuffer();
     }
   }, [file, z85Strings]);
 
-  return (
-    <>
-      {
-        z85Strings && <StringTables strings={z85Strings} />
-      }
-    </>
-  );
+  return <>{z85Strings && <StringTables strings={z85Strings} />}</>;
 }
 
 function chunk(input: Uint8Array, sizePerChunk: number): Uint8Array[] {
@@ -328,15 +327,16 @@ const StringTables: React.FC<Props> = ({ strings }) => {
   return (
     <div>
       {Array.from({ length: numTables }, (_, tableIndex) => {
-        // Get the start and end index for slicing the strings array
+        // Get the start index for slicing the strings array
         const startIndex = tableIndex * elementsPerTable;
-        const endIndex = startIndex + elementsPerTable;
-        const currentTableStrings = strings.slice(startIndex, endIndex);
+        const currentTableStrings = strings.slice(
+          startIndex,
+          startIndex + elementsPerTable,
+        );
 
         return (
           <>
             <div className="page-break" />
-
             <p className="text-sm">
               glacial | scan top to bottom, left to right | page{" "}
               {tableIndex + 1}/{numTables}
@@ -347,13 +347,14 @@ const StringTables: React.FC<Props> = ({ strings }) => {
                   <tr key={rowIndex}>
                     {/* Map over each column in the current row */}
                     {Array.from({ length: 2 }, (_, colIndex) => {
+                      // Calculate the index within currentTableStrings
                       const stringIndex = rowIndex * 2 + colIndex;
                       return (
                         <td key={colIndex}>
                           {stringIndex < currentTableStrings.length ? (
                             <QRCodeSVG
                               size={322}
-                              value={strings[stringIndex]}
+                              value={currentTableStrings[stringIndex]}
                               marginSize={2}
                             />
                           ) : (
