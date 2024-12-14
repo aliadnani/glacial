@@ -35,7 +35,7 @@ const formSchema = z.object({
 function ArchiveForm() {
   const [file, setFile] = useState<File>();
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ contentRef });
+  const reactToPrintFn = useReactToPrint({ contentRef, preserveAfterPrint: true });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
