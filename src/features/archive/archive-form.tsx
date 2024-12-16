@@ -4,7 +4,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-
 import {
   Form,
   FormControl,
@@ -35,7 +34,10 @@ const formSchema = z.object({
 function ArchiveForm() {
   const [file, setFile] = useState<File>();
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ contentRef, preserveAfterPrint: true });
+  const reactToPrintFn = useReactToPrint({
+    contentRef,
+    preserveAfterPrint: true,
+  });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -100,13 +102,9 @@ function ArchiveForm() {
                   <SelectTrigger className="w-32" disabled>
                     <SelectValue placeholder="Select" defaultValue={"628"} />
                   </SelectTrigger>
-                  {/* <Input type="number" {...field} /> */}
                 </FormControl>
                 <SelectContent>
-                  {/* <SelectItem value={"32"}>32 Bytes</SelectItem>
-                    <SelectItem value={"128"}>128 Bytes</SelectItem> */}
                   <SelectItem value={"628"}>628 Bytes</SelectItem>
-                  {/* <SelectItem value={"2048"}>2048 Bytes</SelectItem> */}
                 </SelectContent>
               </Select>
 
@@ -179,7 +177,6 @@ function ArchiveForm() {
       </form>
       <div ref={contentRef} className="hide-for-print">
         <HiddenQrPage file={file} bytesPerQrCode={256} />
-        {/* <Button onClick={reactToPrintFn}>Print</Button> */}
       </div>
     </Form>
   );

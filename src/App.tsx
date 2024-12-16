@@ -14,8 +14,74 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
 import { P } from "./components/ui/typography";
 
 import { ArchiveForm } from "./features/archive/archive-form";
+import { useState } from "react";
+import { Html5QrcodeScanner } from "html5-qrcode";
+import { useEffect } from "react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+
+const qrcodeRegionId = "html5qr-code-full-region";
+
+// Creates the configuration object for Html5QrcodeScanner.
+const createConfig = (props) => {
+  let config = {};
+  if (props.fps) {
+    config.fps = props.fps;
+  }
+  if (props.qrbox) {
+    config.qrbox = props.qrbox;
+  }
+  if (props.aspectRatio) {
+    config.aspectRatio = props.aspectRatio;
+  }
+  if (props.disableFlip !== undefined) {
+    config.disableFlip = props.disableFlip;
+  }
+  return config;
+};
+
+const Html5QrcodePlugin = (props) => {
+  useEffect(() => {
+    // when component mounts
+    const config = createConfig(props);
+    const verbose = props.verbose === true;
+    // Suceess callback is required.
+    if (!props.qrCodeSuccessCallback) {
+      throw "qrCodeSuccessCallback is required callback.";
+    }
+    const html5QrcodeScanner = new Html5QrcodeScanner(
+      qrcodeRegionId,
+      config,
+      verbose,
+    );
+    html5QrcodeScanner.render(
+      props.qrCodeSuccessCallback,
+      props.qrCodeErrorCallback,
+    );
+
+    // cleanup function when component will unmount
+    return () => {
+      html5QrcodeScanner.clear().catch((error) => {
+        console.error("Failed to clear html5QrcodeScanner. ", error);
+      });
+    };
+  }, []);
+
+  return <div id={qrcodeRegionId} />;
+};
 
 function App() {
+  const onNewScanResult = (decodedText, decodedResult) => {
+    // handle decoded results here
+  };
+
   return (
     <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
       <div className="mx-auto max-w-2xl p-4 space-y-4 flex flex-col justify-center items-center">
@@ -57,14 +123,22 @@ function App() {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-2">
-                <P className="text-sm  text-rose-900">
-                  WIP: UI to scan glacial-generated QR codes. QRs contain
-                  filename and page data too - so validation is possible too. https://scanapp.org/ is a good reference.
-                </P>
+                <Dialog>
+                  <DialogTrigger>Open</DialogTrigger>
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>Are you absolutely sure?</DialogTitle>
+                      <DialogDescription>
+                        This action cannot be undone. This will permanently
+                        delete your account and remove your data from our
+                        servers.
+                      </DialogDescription>
+                    </DialogHeader>
+                  </DialogContent>
+                </Dialog>
+                <Button>Start Scanning</Button>
               </CardContent>
-              <CardFooter>
-                <Button>Save password</Button>
-              </CardFooter>
+              <CardFooter>{/* ??? */}</CardFooter>
             </Card>
           </TabsContent>
         </Tabs>
