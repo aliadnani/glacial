@@ -87,7 +87,7 @@ function RecoverResultDisplay(props: RecoverResultDisplayProps) {
   return (
     <div>
       <div className="flex flex-col m-auto text-left">
-        <div >
+        <div>
           <Badge className="text-sm my-2 text">
             Scanned {scannedQrs.length}/{scanResult.numberOfQrs}
           </Badge>
@@ -132,7 +132,7 @@ function CompleteScanningMessage(props: { scanResult: ScanResult }) {
       <P className="text-sm">
         All QR codes have successfully scanned and the recovered file should
         have been downloaded. If not - feel free to try the below link to
-        download again.   Otherwise, you may close this dialog. 
+        download again. Otherwise, you may close this dialog.
       </P>
       <Button
         variant="link"
@@ -140,7 +140,7 @@ function CompleteScanningMessage(props: { scanResult: ScanResult }) {
         onClick={() => downloadScanResult(scanResult)}
       >
         <Download />
-       {`Download '${scanResult.fileName}'`}
+        {`Download '${scanResult.fileName}'`}
       </Button>
     </div>
   );
@@ -158,7 +158,7 @@ function RecoverDialogScanning(props: {
           formatsToSupport={[Html5QrcodeSupportedFormats.QR_CODE]}
           defaultZoomValueIfSupported={1.5}
           fps={30}
-          qrbox={(w, h) => ({width: w * 0.8, height: h * 0.8})}
+          qrbox={(w, h) => ({ width: w * 0.8, height: h * 0.8 })}
           aspectRatio={1}
           qrCodeSuccessCallback={(raw: string) => {
             const qrData = makeQrData(raw);
@@ -202,7 +202,7 @@ function RecoverDialog() {
         <Button variant="outline">Start Scanning</Button>
       </DialogTrigger>
       <DialogContent>
-        <DialogHeader >
+        <DialogHeader>
           <DialogTitle className="text-left">Scan</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>

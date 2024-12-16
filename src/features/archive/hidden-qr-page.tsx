@@ -8,8 +8,6 @@ interface HiddenQrPageProps {
   bytesPerQrCode: number;
 }
 
-
-
 function HiddenQrPage(props: HiddenQrPageProps) {
   const { file } = props;
   const [z85Strings, setZ85Strings] = useState<string[]>();
