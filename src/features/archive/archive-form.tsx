@@ -28,6 +28,7 @@ const formSchema = z.object({
   fileName: z.string(),
   bytesPerQrCode: z.string(),
   maxQrCodesPerPage: z.number().min(6).max(6),
+  qrEncoding: z.enum(["Z85"]),
   pageSize: z.enum(["A4"]),
 });
 
@@ -44,6 +45,7 @@ function ArchiveForm() {
     defaultValues: {
       bytesPerQrCode: "628",
       maxQrCodesPerPage: 6,
+      qrEncoding: "Z85",
       pageSize: "A4",
     },
   });
@@ -128,6 +130,41 @@ function ArchiveForm() {
               </FormDescription>
               <FormControl>
                 <Input className="w-32" type="number" {...field} disabled />
+              </FormControl>
+
+              <FormMessage>
+                {form.formState.errors.maxQrCodesPerPage?.message}
+              </FormMessage>
+            </FormItem>
+          )}
+        />
+        {/* Max QR Codes per Page */}
+        <FormField
+          control={form.control}
+          name="qrEncoding"
+          render={({ field }) => (
+            <FormItem className="my-2">
+              <FormLabel>QR Encoding Type</FormLabel>
+              <FormDescription>
+                QR readers often have issues reading binary - hence we encode to
+                text first. (WIP - only z85 right now, b10 should be implemented
+                as it is more efficient)
+              </FormDescription>
+              <FormControl>
+              <Select
+                onValueChange={field.onChange}
+                defaultValue={field.value}
+                disabled
+              >
+                <FormControl>
+                  <SelectTrigger className="w-32">
+                    <SelectValue placeholder="Select" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Z85">Z85</SelectItem>
+                </SelectContent>
+              </Select>
               </FormControl>
 
               <FormMessage>
