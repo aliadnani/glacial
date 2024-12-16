@@ -67,7 +67,7 @@ function ArchiveForm() {
               <FormLabel>File</FormLabel>
 
               <FormDescription>
-                Upload a file to encode your data as QR codes.
+                Upload a file to encode your data as QR codes. Doing this part on a computer is recommended.
               </FormDescription>
               <FormControl>
                 <Input
