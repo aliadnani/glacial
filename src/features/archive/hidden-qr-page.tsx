@@ -19,7 +19,7 @@ function HiddenQrPage(props: HiddenQrPageProps) {
       const awaitedArrayBuffer = await (file as File).arrayBuffer();
       const int8Array = new Uint8Array(awaitedArrayBuffer);
 
-      const chunkedInt8Arrays = chunk(int8Array, 612);
+      const chunkedInt8Arrays = chunk(int8Array, 648);
       const z85edArrayBuffers = chunkedInt8Arrays
 
         .map((buf) => encode(buf))
@@ -77,9 +77,9 @@ const QrCodeTables: React.FC<Props> = ({ strings }) => {
                         <td key={colIndex}>
                           {stringIndex < currentTableStrings.length ? (
                             <QRCodeSVG
-                              size={332}
+                              size={334}
                               value={currentTableStrings[stringIndex]}
-                              marginSize={6}
+                              marginSize={5}
                             />
                           ) : (
                             ""
