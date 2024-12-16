@@ -33,8 +33,8 @@ function makeQrData(rawData: string): QrData {
   const currentQr = +qrData.split("/")[0].replace("qr=", "") - 1;
   const numberOfQrs = +qrData.split("/")[1];
   return {
-    data: splitData[0].replace("fileName=", ""),
-    fileName: splitData[1],
+    data: splitData[0],
+    fileName: splitData[1].replace("fileName=", ""),
     qr: currentQr,
     numberOfQrs: numberOfQrs,
   };

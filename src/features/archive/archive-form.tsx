@@ -37,6 +37,7 @@ function ArchiveForm() {
   const contentRef = useRef<HTMLDivElement>(null);
   const reactToPrintFn = useReactToPrint({
     contentRef,
+    documentTitle: file?.name,
     preserveAfterPrint: true,
   });
 
