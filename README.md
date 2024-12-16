@@ -4,6 +4,7 @@ Glacial is a web-app that backs up files to QR codes to print for offline 'cold'
 
 Try it out at: https://glacial.vercel.app/
 
+<img src="./glacial-screenshot.png" alt="glacial screenshot" width="40"/>
 ## Development
 
 ### Requirements:
