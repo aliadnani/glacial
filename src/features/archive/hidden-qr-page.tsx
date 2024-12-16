@@ -8,6 +8,8 @@ interface HiddenQrPageProps {
   bytesPerQrCode: number;
 }
 
+
+
 function HiddenQrPage(props: HiddenQrPageProps) {
   const { file } = props;
   const [z85Strings, setZ85Strings] = useState<string[]>();
@@ -30,7 +32,7 @@ function HiddenQrPage(props: HiddenQrPageProps) {
     if (file) {
       awaitArrayBuffer();
     }
-  }, [file, z85Strings]);
+  }, [file]);
 
   return <>{z85Strings && <QrCodeTables strings={z85Strings} />}</>;
 }
@@ -75,9 +77,9 @@ const QrCodeTables: React.FC<Props> = ({ strings }) => {
                         <td key={colIndex}>
                           {stringIndex < currentTableStrings.length ? (
                             <QRCodeSVG
-                              size={322}
+                              size={332}
                               value={currentTableStrings[stringIndex]}
-                              marginSize={2}
+                              marginSize={6}
                             />
                           ) : (
                             ""
