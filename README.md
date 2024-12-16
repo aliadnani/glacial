@@ -7,12 +7,13 @@ Try it out at: https://glacial.vercel.app/
 ## Development
 
 ### Requirements:
+
 - `Node.js` `v22.x`
 - `pnpm`
 
 ```shell
 # Install dependencies
-pnpm install 
+pnpm install
 
 # Run
 pnpm run dev
