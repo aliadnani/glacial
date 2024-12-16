@@ -21,16 +21,20 @@ import {
 } from "html5-qrcode";
 
 import { useEffect } from "react";
-
+import GlacialLogo from "./assets/glacial-logo.svg?react";
+import GlacialLogoDark from "./assets/glacial-logo-dark.svg?react";
 
 import { Html5QrcodeScannerConfig } from "html5-qrcode/esm/html5-qrcode-scanner";
 import { RecoverDialog } from "./features/recover/recover-dialog";
 
 function App() {
+const theme = 'dark'
+
   return (
-    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+    <ThemeProvider defaultTheme={theme} storageKey="vite-ui-theme">
       <div className="mx-auto max-w-2xl p-4 space-y-4 flex flex-col justify-center items-center">
-        <div className="flex h-5 items-center space-x-4 text-sm">
+        <div className="flex h-5 items-center space-x-2 text-sm">
+          {theme ==='dark' ? <GlacialLogoDark className="w-6"/> :<GlacialLogo className="w-6"/>  }
           <div>
             <P className="font-bold text-lg">Glacial</P>
           </div>
