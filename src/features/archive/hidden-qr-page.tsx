@@ -25,7 +25,7 @@ function HiddenQrPage(props: HiddenQrPageProps) {
         .map((buf) => encode(buf))
         .map(
           (zStr, idx) =>
-            `${zStr}~fileName=${file?.name}~pages=${idx + 1}/${chunkedInt8Arrays.length}`,
+            `${zStr}~fileName=${file?.name}~qr=${idx + 1}/${chunkedInt8Arrays.length}`,
         );
       setZ85Strings(z85edArrayBuffers);
     }
