@@ -28,7 +28,7 @@
   }
 
   .hide-for-print {
-    visibility:visible;
+    visibility: visible;
     opacity: 100;
     width: inherit;
     height: inherit;
